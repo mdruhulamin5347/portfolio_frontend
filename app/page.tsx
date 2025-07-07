@@ -27,11 +27,32 @@ import {
   Sun,
   Moon,
 } from "lucide-react"
+import { HomeApiFetch } from "@/routes/api"
+
+interface homeDataType {
+  name : string;
+  title : string;
+  details : string;
+  github_link : string;
+  linkedin_link : string;
+  resume_download : string;
+}
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false) // Changed to false for light mode default
+
+  const [homeData, sethomeData] = useState({} as homeDataType);
+
+  useEffect(() => {
+    const fetchAndLogHomeData = async () => {
+    const homeData = await HomeApiFetch();
+    sethomeData(homeData as homeDataType  );
+    console.log(homeData, "home data hereeeeeeeeeeeeeeeeeee");
+  };
+  fetchAndLogHomeData();
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -301,15 +322,14 @@ export default function Portfolio() {
       <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-20">
         <div className="text-center max-w-4xl mx-auto">
           <div className="mb-8 animate-fade-in">
-            <h1 className={`text-5xl md:text-7xl font-bold ${themeClasses.text.primary} mb-4`}>Md. Ruhul Amin</h1>
+            <h1 className={`text-5xl md:text-7xl font-bold ${themeClasses.text.primary} mb-4`}>{homeData?.name}</h1>
             <h2
               className={`text-2xl md:text-3xl ${themeClasses.text.accent} mb-6 animate-pulse bg-gradient-to-r ${isDarkMode ? "from-purple-300 via-pink-300 to-purple-300" : "from-purple-700 via-indigo-700 to-purple-700"} bg-clip-text text-transparent bg-300% animate-gradient`}
             >
-              Django Backend Developer
+              {homeData.title}
             </h2>
             <p className={`text-xl ${themeClasses.text.secondary} mb-8 max-w-2xl mx-auto`}>
-              Passionate backend developer specializing in Django and REST APIs. Building scalable web applications with
-              clean, efficient code.
+              {homeData.details}
             </p>
           </div>
 
@@ -319,7 +339,7 @@ export default function Portfolio() {
               <Button
                 variant="outline"
                 className={`${themeClasses.button.secondary} px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 bg-transparent`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`${homeData.github_link}`, "_blank")}
               >
                 <Github className="mr-2" size={20} />
                 GitHub
@@ -327,7 +347,7 @@ export default function Portfolio() {
               <Button
                 variant="outline"
                 className={`${themeClasses.button.secondary} px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 bg-transparent`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`${homeData.linkedin_link}`, "_blank")}
               >
                 <Linkedin className="mr-2" size={20} />
                 LinkedIn
@@ -345,7 +365,7 @@ export default function Portfolio() {
               </Button>
               <Button
                 className={`${themeClasses.button.primary} px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`http://127.0.0.1:8000/media/resume/${homeData.resume_download}`, "_blank")}
               >
                 <Download className="mr-2" size={20} />
                 Resume
