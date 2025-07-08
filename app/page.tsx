@@ -27,7 +27,8 @@ import {
   Sun,
   Moon,
 } from "lucide-react"
-import { HomeApiFetch } from "@/routes/api"
+import { aboutAPIFetch, courseAPIFetch, educationAPIFetch, HomeApiFetch, skillsAPIFetch } from "@/routes/api"
+
 
 interface homeDataType {
   name : string;
@@ -38,21 +39,107 @@ interface homeDataType {
   resume_download : string;
 }
 
+interface aboutDataType {
+  title : string;
+  details : string;
+  picture : string;
+}
+
+
+interface educationDataType {
+  degree : string;
+  duration : string;
+  title : string;
+  course_name : string;
+  institute : string;
+  details : string;
+  technologies : technologiesType[];
+}
+
+interface technologiesType{
+  Section : string;
+  name : string;
+}
+
+
+interface courseType {
+  degree : string;
+  duration : string;
+  title : string;
+  course_name : string;
+  institute : string;
+  details : string;
+  technologies : technologiesType[];
+}
+
+interface skillsType{
+  title : string;
+  technologies : technologiesType[];
+  icon : string;
+}
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false) // Changed to false for light mode default
+  const [isDarkMode, setIsDarkMode] = useState(true) // Changed to false for light mode default
 
   const [homeData, sethomeData] = useState({} as homeDataType);
+  const [aboutData, setAboutData] = useState({} as aboutDataType);
+  const [educationData, setEducationData] = useState([] as educationDataType[]);
+  const [courseData , setCourseData] = useState([] as courseType[]);
+  const [skillData, setSkillsData] = useState([] as skillsType[]);
+
 
   useEffect(() => {
     const fetchAndLogHomeData = async () => {
     const homeData = await HomeApiFetch();
     sethomeData(homeData as homeDataType  );
-    console.log(homeData, "home data hereeeeeeeeeeeeeeeeeee");
+    
   };
   fetchAndLogHomeData();
   }, [])
+
+
+  useEffect(()=>{
+    const fetchAndLogAboutData = async () => {
+      const aboutData = await aboutAPIFetch();
+      setAboutData(aboutData as aboutDataType);
+      setSkillsData(skillData as skillsType[]);
+    }
+    fetchAndLogAboutData();
+    
+    
+  },[])
+
+
+
+  useEffect(()=>{
+    const fetchAndLogEducationData = async () =>{
+      const educationData = await educationAPIFetch();
+      setEducationData(educationData as educationDataType[])
+    }
+    fetchAndLogEducationData();
+  },[])
+
+
+
+  useEffect(()=>{
+    const fetchAndLogCourseData = async ()=>{
+      const courseData = await courseAPIFetch();
+      setCourseData(courseData as courseType[])
+    }
+    fetchAndLogCourseData();
+  },[])
+
+
+  useEffect(()=>{
+    const fetchAndLogSkillsData = async ()=>{
+      const skillsData = await skillsAPIFetch();
+      setSkillsData(skillsData as skillsType[]);
+    }
+    fetchAndLogSkillsData();
+
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -394,7 +481,7 @@ export default function Portfolio() {
                 className={`w-80 h-80 mx-auto rounded-full overflow-hidden border-4 ${isDarkMode ? "border-purple-300" : "border-purple-600"} shadow-2xl`}
               >
                 <img
-                  src="/placeholder.svg?height=320&width=320"
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${aboutData.picture}`}
                   alt="Md. Ruhul Amin"
                   className="w-full h-full object-cover"
                 />
@@ -405,22 +492,12 @@ export default function Portfolio() {
             <div className="space-y-6">
               <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
                 <CardContent className="p-8">
-                  <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-4`}>Professional Summary</h3>
-                  <p className={`${themeClasses.text.secondary} leading-relaxed mb-4`}>
-                    I'm a dedicated Backend Developer with expertise in Django and Python, passionate about creating
-                    robust, scalable web applications. With a strong foundation in software engineering principles and
-                    modern development practices, I specialize in building RESTful APIs and database-driven
-                    applications.
-                  </p>
-                  <p className={`${themeClasses.text.secondary} leading-relaxed mb-4`}>
-                    My experience spans from designing efficient database schemas to implementing secure authentication
-                    systems and optimizing application performance. I'm committed to writing clean, maintainable code
-                    and following industry best practices.
-                  </p>
-                  <p className={`${themeClasses.text.secondary} leading-relaxed`}>
-                    When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and
-                    staying updated with the latest trends in web development.
-                  </p>
+                  <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-4`}>{aboutData.title}</h3>
+                  
+                  <div
+                    className={`${themeClasses.text.secondary} leading-relaxed space-y-4`}
+                    dangerouslySetInnerHTML={{ __html: aboutData.details }} 
+                  />
                 </CardContent>
               </Card>
             </div>
@@ -445,7 +522,7 @@ export default function Portfolio() {
               Education
             </h3>
             <div className="grid md:grid-cols-2 gap-8">
-              {education.map((edu, index) => (
+              {educationData.map((edu, index) => (
                 <Card
                   key={index}
                   className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}
@@ -453,12 +530,12 @@ export default function Portfolio() {
                   <CardContent className="p-6">
                     <div className="flex items-start mb-4">
                       <div className={`${themeClasses.text.accent} mr-4 mt-1 transition-colors duration-300`}>
-                        {edu.icon}
+                        <GraduationCap className="w-8 h-8" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center mb-2">
                           <Badge className={`${themeClasses.badge.primary} mr-2 transition-all duration-300`}>
-                            {edu.type}
+                            {edu.degree}
                           </Badge>
                           <Badge
                             className={`${isDarkMode ? "bg-blue-600/20 text-blue-300 border-blue-300/30" : "bg-blue-200/60 text-blue-800 border-blue-300/50"} transition-all duration-300`}
@@ -467,19 +544,19 @@ export default function Portfolio() {
                           </Badge>
                         </div>
                         <h4 className={`text-xl font-semibold ${themeClasses.text.primary} mb-1`}>{edu.title}</h4>
-                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{edu.field}</h5>
-                        <p className={`${themeClasses.text.secondary} mb-3`}>{edu.institution}</p>
+                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{edu.course_name}</h5>
+                        <p className={`${themeClasses.text.secondary} mb-3`}>{edu.institute}</p>
                       </div>
                     </div>
-                    <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{edu.description}</p>
+                    <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{edu.details}</p>
                     <div className="flex flex-wrap gap-2">
-                      {edu.skills.map((skill) => (
+                      {edu.technologies.map((skill, index) => (
                         <Badge
-                          key={skill}
+                          key={skill?.name}
                           variant="outline"
-                          className={`${themeClasses.badge.secondary} text-xs transition-all duration-300`}
+                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
                         >
-                          {skill}
+                          {skill?.name}
                         </Badge>
                       ))}
                     </div>
@@ -496,7 +573,7 @@ export default function Portfolio() {
               Professional Certifications
             </h3>
             <div className="grid gap-8">
-              {certifications.map((cert, index) => (
+              {courseData.map((cert, index) => (
                 <Card
                   key={index}
                   className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}
@@ -504,33 +581,33 @@ export default function Portfolio() {
                   <CardContent className="p-6">
                     <div className="flex items-start mb-4">
                       <div className={`${themeClasses.text.accent} mr-4 mt-1 transition-colors duration-300`}>
-                        {cert.icon}
+                        <Award className="w-8 h-8" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center mb-2">
                           <Badge
                             className={`${isDarkMode ? "bg-green-600/20 text-green-300 border-green-300/30" : "bg-green-200/60 text-green-800 border-green-300/50"} mr-2 transition-all duration-300`}
                           >
-                            Certified
+                            {cert.degree}
                           </Badge>
                           <Badge className={`${themeClasses.badge.primary} transition-all duration-300`}>
-                            {cert.type}
+                            {cert.duration}
                           </Badge>
                         </div>
                         <h4 className={`text-xl font-semibold ${themeClasses.text.primary} mb-1`}>{cert.title}</h4>
-                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{cert.field}</h5>
-                        <p className={`${themeClasses.text.secondary} mb-3`}>{cert.institution}</p>
+                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{cert.course_name}</h5>
+                        <p className={`${themeClasses.text.secondary} mb-3`}>{cert.institute}</p>
                       </div>
                     </div>
-                    <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{cert.description}</p>
+                    <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{cert.details}</p>
                     <div className="flex flex-wrap gap-2">
-                      {cert.skills.map((skill) => (
+                      {cert.technologies.map((skill) => (
                         <Badge
-                          key={skill}
+                          key={skill.name}
                           variant="outline"
-                          className={`${isDarkMode ? "border-green-300/50 text-green-300" : "border-green-500/60 text-green-700 bg-white/40"} text-xs transition-all duration-300`}
+                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
                         >
-                          {skill}
+                          {skill.name}
                         </Badge>
                       ))}
                     </div>
@@ -548,107 +625,31 @@ export default function Portfolio() {
           <h2 className={`text-4xl font-bold ${themeClasses.text.primary} text-center mb-16`}>Skills & Technologies</h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Globe className={`${themeClasses.text.accent} mr-3 transition-colors duration-300`} size={24} />
-                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>Frontend</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skills.frontend.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className={`${themeClasses.badge.primary} transition-all duration-300`}
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
+            {skillData.map((skillData,index) =>(
+
+              <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <Database className={`${themeClasses.text.accent} mr-3 transition-colors duration-300`} size={24} />
-                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>Backend</h3>
+                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>{skillData.title}</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {skills.backend.map((skill) => (
+                  {skillData.technologies.map((skill) => (
                     <Badge
-                      key={skill}
+                      key={skill.name}
                       variant="secondary"
                       className={`${themeClasses.badge.primary} transition-all duration-300`}
                     >
-                      {skill}
+                      {skill.name}
                     </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
 
-            <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Code className={`${themeClasses.text.accent} mr-3 transition-colors duration-300`} size={24} />
-                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>Programming</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skills.programming.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className={`${themeClasses.badge.primary} transition-all duration-300`}
-                    >
-                      {skill}
-                    </Badge>
                   ))}
                 </div>
               </CardContent>
             </Card>
+            ))}
 
-            <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Star className={`${themeClasses.text.accent} mr-3 transition-colors duration-300`} size={24} />
-                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>Concepts</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skills.concepts.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className={`${themeClasses.badge.primary} transition-all duration-300`}
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card
-              className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500 md:col-span-2 lg:col-span-1`}
-            >
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Database className={`${themeClasses.text.accent} mr-3 transition-colors duration-300`} size={24} />
-                  <h3 className={`text-xl font-semibold ${themeClasses.text.primary}`}>Tools</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skills.tools.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className={`${themeClasses.badge.primary} transition-all duration-300`}
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
