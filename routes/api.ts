@@ -69,3 +69,37 @@ export const skillsAPIFetch = async ()=> {
     const data = await response.json();
     return data;
 }
+
+
+export const workExperinceAPIFetch = async ()=>{
+    const response = await fetch(`${backendURL}/experience/`);
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+}
+
+
+export const serviceAPIFetch = async ()=>{
+    const response = await fetch(`${backendURL}/services/`);
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+}
+
+export const projectAPIFetch = async ()=>{
+    const response = await fetch(`${backendURL}/projects/`);
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+}
+
+export const contactInfoAPIFetch = async ()=>{
+    const response = await fetch(`${backendURL}/location/`);
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+}

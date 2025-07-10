@@ -26,8 +26,9 @@ import {
   BookOpen,
   Sun,
   Moon,
+  Facebook,
 } from "lucide-react"
-import { aboutAPIFetch, courseAPIFetch, educationAPIFetch, HomeApiFetch, skillsAPIFetch } from "@/routes/api"
+import { aboutAPIFetch, contactInfoAPIFetch, courseAPIFetch, educationAPIFetch, HomeApiFetch, projectAPIFetch, serviceAPIFetch, skillsAPIFetch, workExperinceAPIFetch } from "@/routes/api"
 
 
 interface homeDataType {
@@ -78,6 +79,41 @@ interface skillsType{
   icon : string;
 }
 
+interface workExperinceDataType {
+  company : string;
+  position : string;
+  start_date : string;
+  end_date : string;
+  responsibilities : string;
+  technologies : technologiesType[];
+}
+
+interface serviceDataType {
+  title : string;
+  description : string;
+  icon : string;
+}
+
+interface projectDataType {
+  title : string;
+  description : string;
+  technologies : technologiesType[];
+  github_link : string;
+  live_demo_link : string;
+  image : string;
+}
+
+interface contactInfoDataType {
+  email : string;
+  phone_number : string;
+  location : string;
+  whats_app : string;
+  facebook_link : string;
+  codeforces_link : string;
+  codechef_link : string;
+  personal_website : string;
+}
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -88,7 +124,10 @@ export default function Portfolio() {
   const [educationData, setEducationData] = useState([] as educationDataType[]);
   const [courseData , setCourseData] = useState([] as courseType[]);
   const [skillData, setSkillsData] = useState([] as skillsType[]);
-
+  const [workExperinceData, setWorkExperinceData] = useState([] as workExperinceDataType[]);
+  const [serviceData , setServiceData] = useState([] as serviceDataType[]);
+  const [projectData , setProjectData] = useState([] as projectDataType[]);
+  const [contactInfoData , setContactInfoData] = useState({} as contactInfoDataType);
 
   useEffect(() => {
     const fetchAndLogHomeData = async () => {
@@ -140,6 +179,40 @@ export default function Portfolio() {
     fetchAndLogSkillsData();
 
   })
+
+
+
+  useEffect(()=>{
+    const fetchAndLogWorkExperinceData = async ()=>{
+      const workExperinceData = await workExperinceAPIFetch();
+      setWorkExperinceData(workExperinceData as workExperinceDataType[]);
+    }
+    fetchAndLogWorkExperinceData();
+  },[])
+
+    useEffect(()=>{
+    const fetchAndLogWorkExperinceData = async ()=>{
+      const serviceData = await serviceAPIFetch();
+      setServiceData(serviceData as serviceDataType[]);
+    }
+    fetchAndLogWorkExperinceData();
+  },[])
+
+    useEffect(()=>{
+    const fetchAndLogWorkExperinceData = async ()=>{
+      const projectData = await projectAPIFetch();
+      setProjectData(projectData as projectDataType[]);
+    }
+    fetchAndLogWorkExperinceData();
+  },[])
+
+    useEffect(()=>{
+    const fetchAndLogContactInfoData = async ()=>{
+      const contactInfoData = await contactInfoAPIFetch();
+      setContactInfoData(contactInfoData as contactInfoDataType);
+    }
+    fetchAndLogContactInfoData();
+  },[])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -660,65 +733,42 @@ export default function Portfolio() {
           <h2 className={`text-4xl font-bold ${themeClasses.text.primary} text-center mb-16`}>Work Experience</h2>
 
           <div className="max-w-4xl mx-auto">
-            <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
+
+            {workExperinceData.map((experince,index) =>(
+              <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-8">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
-                    <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-2`}>Backend Developer</h3>
-                    <h4 className={`text-xl ${themeClasses.text.accent} mb-2`}>TRODAD International LTD</h4>
+                    <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-2`}>{experince.position}</h3>
+                    <h4 className={`text-xl ${themeClasses.text.accent} mb-2`}>{experince.company}</h4>
                   </div>
                   <div className={`flex items-center ${themeClasses.text.secondary}`}>
                     <Calendar className="mr-2" size={16} />
-                    <span>March 2024 - Present</span>
+                    <span>{experince.start_date}</span>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <p className={`${themeClasses.text.secondary} leading-relaxed`}>
-                    Working as a Django Backend Developer, responsible for designing and implementing scalable backend
-                    solutions for web applications. Key responsibilities include:
-                  </p>
-
-                  <ul className={`list-disc list-inside ${themeClasses.text.secondary} space-y-2 ml-4`}>
-                    <li>Developing RESTful APIs using Django REST Framework</li>
-                    <li>Designing and optimizing database schemas with PostgreSQL</li>
-                    <li>Implementing user authentication and authorization systems</li>
-                    <li>Writing comprehensive unit tests and maintaining code quality</li>
-                    <li>Collaborating with frontend developers for seamless integration</li>
-                    <li>Optimizing application performance and database queries</li>
-                    <li>Deploying applications using Docker and cloud platforms</li>
-                  </ul>
+                  <div
+                    className={`${themeClasses.text.secondary} leading-relaxed space-y-4`}
+                    dangerouslySetInnerHTML={{ __html: experince.responsibilities }} 
+                  />
+            
 
                   <div className="flex flex-wrap gap-2 mt-6">
-                    <Badge
-                      className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
-                    >
-                      Django
-                    </Badge>
-                    <Badge
-                      className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
-                    >
-                      Python
-                    </Badge>
-                    <Badge
-                      className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
-                    >
-                      REST API
-                    </Badge>
-                    <Badge
-                      className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
-                    >
-                      PostgreSQL
-                    </Badge>
-                    <Badge
-                      className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
-                    >
-                      Docker
-                    </Badge>
-                  </div>
+                    {experince.technologies.map((tech,index)=>(
+                        <Badge
+                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
+                        >
+                          {tech.name}
+                        </Badge>
+                    ))}                    
+                    
+                  </div>                  
                 </div>
               </CardContent>
             </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -733,7 +783,7 @@ export default function Portfolio() {
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
+            {serviceData.map((service, index) => (
               <Card
                 key={index}
                 className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500 group`}
@@ -745,18 +795,12 @@ export default function Portfolio() {
                     {service.icon}
                   </div>
                   <h3 className={`text-xl font-semibold ${themeClasses.text.primary} mb-3`}>{service.title}</h3>
-                  <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{service.description}</p>
-
-                  <div className="space-y-2">
-                    {service.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className={`flex items-center text-sm ${themeClasses.text.secondary}`}>
-                        <div
-                          className={`w-1.5 h-1.5 ${isDarkMode ? "bg-purple-400" : "bg-purple-600"} rounded-full mr-3`}
-                        ></div>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
+                  {/* <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{service.description}</p> */}
+                  <div
+                    className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}
+                    dangerouslySetInnerHTML={{ __html: service.description }} 
+                  />
+            
 
                   <Button
                     className={`w-full mt-6 ${isDarkMode ? "bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-600/30 hover:border-purple-600" : "bg-purple-200/60 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 text-purple-700 hover:text-white border border-purple-300/50 hover:border-transparent"} transition-all duration-300`}
@@ -777,7 +821,7 @@ export default function Portfolio() {
           <h2 className={`text-4xl font-bold ${themeClasses.text.primary} text-center mb-16`}>Featured Projects</h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+            {projectData.map((project, index) => (
               <Card
                 key={index}
                 className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}
@@ -787,13 +831,13 @@ export default function Portfolio() {
                   <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{project.description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech.map((tech) => (
+                    {project.technologies.map((tech) => (
                       <Badge
-                        key={tech}
+                        key={tech.name}
                         variant="outline"
                         className={`${themeClasses.badge.secondary} transition-all duration-300`}
                       >
-                        {tech}
+                        {tech.name}
                       </Badge>
                     ))}
                   </div>
@@ -803,7 +847,7 @@ export default function Portfolio() {
                       size="sm"
                       variant="outline"
                       className={`${themeClasses.button.secondary} bg-transparent transition-all duration-300`}
-                      onClick={() => window.open(project.github, "_blank")}
+                      onClick={() => window.open(project.github_link, "_blank")}
                     >
                       <Github className="mr-2" size={16} />
                       Code
@@ -811,7 +855,7 @@ export default function Portfolio() {
                     <Button
                       size="sm"
                       className={`${themeClasses.button.primary} transition-all duration-300`}
-                      onClick={() => window.open(project.live, "_blank")}
+                      onClick={() => window.open(project.live_demo_link, "_blank")}
                     >
                       <ExternalLink className="mr-2" size={16} />
                       Live Demo
@@ -840,15 +884,15 @@ export default function Portfolio() {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Mail className={`${themeClasses.text.accent} mr-4`} size={20} />
-                  <span className={themeClasses.text.primary}>ruhulamin@example.com</span>
+                  <span className={themeClasses.text.primary}>{contactInfoData.email}</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className={`${themeClasses.text.accent} mr-4`} size={20} />
-                  <span className={themeClasses.text.primary}>+880 123 456 7890</span>
+                  <span className={themeClasses.text.primary}>{contactInfoData.phone_number}</span>
                 </div>
                 <div className="flex items-center">
                   <MapPin className={`${themeClasses.text.accent} mr-4`} size={20} />
-                  <span className={themeClasses.text.primary}>Dhaka, Bangladesh</span>
+                  <span className={themeClasses.text.primary}>{contactInfoData.location}</span>
                 </div>
               </div>
             </div>
@@ -897,48 +941,92 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <h3 className={`text-2xl font-bold ${themeClasses.text.primary} mb-2`}>Md. Ruhul Amin</h3>
-              <p className={themeClasses.text.secondary}>Django Backend Developer</p>
+              <h3 className={`text-2xl font-bold ${themeClasses.text.primary} mb-2`}>{homeData.name}</h3>
+              <p className={themeClasses.text.secondary}>{homeData.title}</p>
             </div>
 
             <div className="flex space-x-6">
+              {/* GitHub */}
               <Button
                 size="sm"
                 variant="ghost"
                 className={`${themeClasses.button.ghost} transition-all duration-300`}
-                onClick={() => window.open("#", "_blank")}
-              >
-                <Linkedin size={20} />
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                className={`${themeClasses.button.ghost} transition-all duration-300`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`${homeData.github_link}`, "_blank")}
               >
                 <Github size={20} />
               </Button>
+
+              {/* LinkedIn */}
               <Button
                 size="sm"
                 variant="ghost"
                 className={`${themeClasses.button.ghost} transition-all duration-300`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`${homeData.linkedin_link}`, "_blank")}
+              >
+                <Linkedin size={20} />
+              </Button>
+
+              {/* Codeforces */}
+              {/* <Button
+                size="sm"
+                variant="ghost"
+                className={`${themeClasses.button.ghost} transition-all duration-300`}
+                onClick={() => window.open(`${contactInfoData.codeforces_link}`, "_blank")}
+              >
+                <Code size={20} /> 
+              </Button> */}
+
+              {/* CodeChef */}
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`${themeClasses.button.ghost} transition-all duration-300`}
+                onClick={() => window.open(`${contactInfoData.codechef_link}`, "_blank")}
+              >
+                <Code size={20} /> {/* You can replace this with a CodeChef SVG icon */}
+              </Button>
+
+              {/* WhatsApp */}
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`${themeClasses.button.ghost} transition-all duration-300`}
+                onClick={() => window.open(`${contactInfoData.whats_app}`, "_blank")}
               >
                 <MessageCircle size={20} />
               </Button>
+
+              {/* Facebook */}
               <Button
                 size="sm"
                 variant="ghost"
                 className={`${themeClasses.button.ghost} transition-all duration-300`}
-                onClick={() => window.open("mailto:ruhulamin@example.com")}
+                onClick={() => window.open(`${contactInfoData.facebook_link}`, "_blank")}
+              >
+                <Facebook size={20} /> {/* Use Facebook icon if available */}
+              </Button>
+
+              {/* Email */}
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`${themeClasses.button.ghost} transition-all duration-300`}
+                onClick={() => {
+                  const email = contactInfoData?.email || "mdruhulamin534793@gmail.com";
+                  window.open(`mailto:${email}`);
+                }}
               >
                 <Mail size={20} />
               </Button>
+
+              
+
+              {/* External Website */}
               <Button
                 size="sm"
                 variant="ghost"
                 className={`${themeClasses.button.ghost} transition-all duration-300`}
-                onClick={() => window.open("#", "_blank")}
+                onClick={() => window.open(`${contactInfoData.personal_website}`, "_blank")}
               >
                 <ExternalLink size={20} />
               </Button>
