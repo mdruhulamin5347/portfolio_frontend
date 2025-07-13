@@ -214,6 +214,8 @@ export default function Portfolio() {
     fetchAndLogContactInfoData();
   },[])
 
+
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["home", "about", "education", "skills", "experience", "services", "projects", "contact"]
@@ -367,44 +369,50 @@ export default function Portfolio() {
   // Enhanced theme classes with better light mode colors
   const themeClasses = {
     background: isDarkMode
-      ? "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
-      : "bg-gradient-to-br from-[#EBE7FA] via-[#F5F2FF] to-[#E8F4FD]",
+      ? "bg-gradient-to-br from-[#020024] via-[#090979] to-[#000000]"
+      : "bg-gradient-to-br from-[#E9E4F0] via-[#D3CCE3] to-[#E9E4F0]",
     navbar: isDarkMode
-      ? "backdrop-blur-sm bg-white/5 border-white/10"
-      : "backdrop-blur-sm bg-white/20 border-purple-200/30",
+      ? "backdrop-blur-sm bg-black/20 border-cyan-400/20"
+      : "backdrop-blur-sm bg-white/50 border-purple-300/30",
     text: {
-      primary: isDarkMode ? "text-white" : "text-slate-800",
-      secondary: isDarkMode ? "text-gray-300" : "text-slate-600",
-      accent: isDarkMode ? "text-purple-300" : "text-purple-700",
+      primary: isDarkMode ? "text-white" : "text-slate-900",
+      secondary: isDarkMode ? "text-gray-400" : "text-slate-700",
+      accent: isDarkMode ? "text-cyan-400" : "text-indigo-600",
+      accent2: isDarkMode ? "text-fuchsia-500" : "text-purple-700",
     },
     card: {
       base: isDarkMode
-        ? "bg-white/10 backdrop-blur-md border-white/20"
-        : "bg-[#F2DFF2]/80 backdrop-blur-md border-purple-200/40 shadow-lg",
+        ? "bg-black/30 backdrop-blur-lg border border-cyan-400/20 shadow-lg shadow-cyan-500/10"
+        : "hover:bg-gradient-to-br hover:from-[#E8D5F2] hover:via-[#DDE8F8] hover:to-[#D4E6F1] hover:shadow-xl hover:border-purple-300/60",
       hover: isDarkMode
-        ? "hover:bg-white/15"
+        ? "hover:border-fuchsia-500/50 hover:shadow-fuchsia-500/20"
         : "hover:bg-gradient-to-br hover:from-[#E8D5F2] hover:via-[#DDE8F8] hover:to-[#D4E6F1] hover:shadow-xl hover:border-purple-300/60",
     },
     badge: {
       primary: isDarkMode
-        ? "bg-purple-600/20 text-purple-300 border-purple-300/30"
-        : "bg-purple-200/60 text-purple-800 border-purple-300/50",
+        ? "bg-cyan-400/10 text-cyan-300 border border-cyan-400/30"
+        : "bg-indigo-100 text-indigo-800 border border-indigo-200/80",
       secondary: isDarkMode
-        ? "border-purple-300/50 text-purple-300"
-        : "border-purple-500/60 text-purple-700 bg-white/40",
+        ? "bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/30"
+        : "bg-purple-100 text-purple-800 border border-purple-200/80",
     },
     button: {
       primary: isDarkMode
-        ? "bg-purple-600 hover:bg-purple-700 text-white"
-        : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl",
+        ? "bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-cyan-500/20"
+        : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl",
       secondary: isDarkMode
-        ? "border-purple-300 text-purple-300 hover:bg-purple-300 hover:text-purple-900"
-        : "border-purple-600 text-purple-700 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 hover:text-white hover:border-transparent",
+        ? "border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+        : "border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white",
       ghost: isDarkMode
-        ? "text-purple-300 hover:text-white hover:bg-purple-600/20"
-        : "text-purple-700 hover:text-purple-800 hover:bg-purple-200/60",
+        ? "text-cyan-400 hover:text-black hover:bg-cyan-400"
+        : "text-indigo-700 hover:text-white hover:bg-indigo-600",
     },
-  }
+    input: {
+      base: isDarkMode
+        ? "bg-black/20 border border-cyan-400/30 text-white placeholder-gray-500 focus:border-fuchsia-500 focus:ring-fuchsia-500/50"
+        : "bg-white/80 border border-purple-300/50 text-slate-800 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500/50",
+    }
+  };
 
   return (
     <div className={`min-h-screen ${themeClasses.background} transition-all duration-500`}>
@@ -423,8 +431,8 @@ export default function Portfolio() {
                     onClick={() => scrollToSection(section)}
                     className={`capitalize transition-all duration-300 ${
                       activeSection === section
-                        ? `${themeClasses.text.accent} border-b-2 ${isDarkMode ? "border-purple-300" : "border-purple-600"}`
-                        : `${themeClasses.text.primary} ${isDarkMode ? "hover:text-purple-300" : "hover:text-purple-700"}`
+                        ? `${themeClasses.text.accent} border-b-2 ${isDarkMode ? "border-cyan-400" : "border-indigo-600"}`
+                        : `${themeClasses.text.primary} hover:${themeClasses.text.accent}`
                     }`}
                   >
                     {section}
@@ -437,7 +445,7 @@ export default function Portfolio() {
                 onClick={toggleTheme}
                 size="sm"
                 variant="ghost"
-                className={`${themeClasses.text.primary} ${isDarkMode ? "hover:bg-white/10" : "hover:bg-purple-100/60"} p-2 transition-all duration-300`}
+                className={`${isDarkMode ? "hover:bg-cyan-400/10" : "hover:bg-indigo-100"} ${themeClasses.text.accent} p-2 transition-all duration-300`}
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </Button>
@@ -449,7 +457,7 @@ export default function Portfolio() {
                 onClick={toggleTheme}
                 size="sm"
                 variant="ghost"
-                className={`${themeClasses.text.primary} p-2 transition-all duration-300`}
+                className={`${themeClasses.text.accent} p-2 transition-all duration-300`}
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
               </Button>
@@ -467,7 +475,7 @@ export default function Portfolio() {
                   <button
                     key={section}
                     onClick={() => scrollToSection(section)}
-                    className={`block w-full text-left py-2 ${themeClasses.text.primary} ${isDarkMode ? "hover:text-purple-300" : "hover:text-purple-700"} capitalize transition-colors duration-300`}
+                    className={`block w-full text-left py-2 ${themeClasses.text.primary} hover:${themeClasses.text.accent} capitalize transition-colors duration-300`}
                   >
                     {section}
                   </button>
@@ -484,7 +492,7 @@ export default function Portfolio() {
           <div className="mb-8 animate-fade-in">
             <h1 className={`text-5xl md:text-7xl font-bold ${themeClasses.text.primary} mb-4`}>{homeData?.name}</h1>
             <h2
-              className={`text-2xl md:text-3xl ${themeClasses.text.accent} mb-6 animate-pulse bg-gradient-to-r ${isDarkMode ? "from-purple-300 via-pink-300 to-purple-300" : "from-purple-700 via-indigo-700 to-purple-700"} bg-clip-text text-transparent bg-300% animate-gradient`}
+              className={`text-2xl md:text-3xl ${themeClasses.text.accent2} mb-6 animate-pulse bg-gradient-to-r ${isDarkMode ? "from-fuchsia-500 via-cyan-400 to-fuchsia-500" : "from-purple-700 via-indigo-700 to-purple-700"} bg-clip-text text-transparent bg-300% animate-gradient`}
             >
               {homeData.title}
             </h2>
@@ -551,7 +559,7 @@ export default function Portfolio() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <div
-                className={`w-80 h-80 mx-auto rounded-full overflow-hidden border-4 ${isDarkMode ? "border-purple-300" : "border-purple-600"} shadow-2xl`}
+                className={`w-80 h-80 mx-auto rounded-full overflow-hidden border-4 ${isDarkMode ? "border-cyan-400" : "border-indigo-600"} shadow-2xl`}
               >
                 <img
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${aboutData.picture}`}
@@ -568,7 +576,7 @@ export default function Portfolio() {
                   <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-4`}>{aboutData.title}</h3>
                   
                   <div
-                    className={`${themeClasses.text.secondary} leading-relaxed space-y-4`}
+                    className={`${themeClasses.text.secondary} leading-relaxed space-y-2 list-disc list-inside`}
                     dangerouslySetInnerHTML={{ __html: aboutData.details }} 
                   />
                 </CardContent>
@@ -617,7 +625,7 @@ export default function Portfolio() {
                           </Badge>
                         </div>
                         <h4 className={`text-xl font-semibold ${themeClasses.text.primary} mb-1`}>{edu.title}</h4>
-                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{edu.course_name}</h5>
+                        <h5 className={`text-lg ${themeClasses.text.accent2} mb-2`}>{edu.course_name}</h5>
                         <p className={`${themeClasses.text.secondary} mb-3`}>{edu.institute}</p>
                       </div>
                     </div>
@@ -627,7 +635,7 @@ export default function Portfolio() {
                         <Badge
                           key={skill?.name}
                           variant="outline"
-                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
+                          className={`${themeClasses.badge.secondary} transition-all duration-300`}
                         >
                           {skill?.name}
                         </Badge>
@@ -668,7 +676,7 @@ export default function Portfolio() {
                           </Badge>
                         </div>
                         <h4 className={`text-xl font-semibold ${themeClasses.text.primary} mb-1`}>{cert.title}</h4>
-                        <h5 className={`text-lg ${themeClasses.text.accent} mb-2`}>{cert.course_name}</h5>
+                        <h5 className={`text-lg ${themeClasses.text.accent2} mb-2`}>{cert.course_name}</h5>
                         <p className={`${themeClasses.text.secondary} mb-3`}>{cert.institute}</p>
                       </div>
                     </div>
@@ -678,7 +686,7 @@ export default function Portfolio() {
                         <Badge
                           key={skill.name}
                           variant="outline"
-                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
+                          className={`${themeClasses.badge.secondary} transition-all duration-300`}
                         >
                           {skill.name}
                         </Badge>
@@ -734,31 +742,31 @@ export default function Portfolio() {
 
           <div className="max-w-4xl mx-auto">
 
-            {workExperinceData.map((experince,index) =>(
+            {workExperinceData.map((experience,index) =>(
               <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-8">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                   <div>
-                    <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-2`}>{experince.position}</h3>
-                    <h4 className={`text-xl ${themeClasses.text.accent} mb-2`}>{experince.company}</h4>
+                    <h3 className={`text-2xl font-semibold ${themeClasses.text.primary} mb-2`}>{experience.position}</h3>
+                    <h4 className={`text-xl ${themeClasses.text.accent2} mb-2`}>{experience.company}</h4>
                   </div>
                   <div className={`flex items-center ${themeClasses.text.secondary}`}>
                     <Calendar className="mr-2" size={16} />
-                    <span>{experince.start_date}</span>
+                    <span>{experience.start_date}</span>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div
-                    className={`${themeClasses.text.secondary} leading-relaxed space-y-4`}
-                    dangerouslySetInnerHTML={{ __html: experince.responsibilities }} 
+                    className={`${themeClasses.text.secondary} leading-relaxed space-y-2 list-disc list-inside`}
+                    dangerouslySetInnerHTML={{ __html: experience.responsibilities }}
                   />
-            
+                              
 
                   <div className="flex flex-wrap gap-2 mt-6">
-                    {experince.technologies.map((tech,index)=>(
+                    {experience.technologies.map((tech,index)=>(
                         <Badge
-                          className={`${isDarkMode ? "bg-purple-600 text-white" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"} transition-all duration-300`}
+                          className={`${themeClasses.badge.secondary} transition-all duration-300`}
                         >
                           {tech.name}
                         </Badge>
@@ -790,20 +798,20 @@ export default function Portfolio() {
               >
                 <CardContent className="p-6">
                   <div
-                    className={`${themeClasses.text.accent} mb-4 group-hover:${isDarkMode ? "text-purple-200" : "text-purple-800"} transition-colors duration-300`}
+                    className={`${themeClasses.text.accent} mb-4 group-hover:${themeClasses.text.accent2} transition-colors duration-300`}
                   >
                     {service.icon}
                   </div>
                   <h3 className={`text-xl font-semibold ${themeClasses.text.primary} mb-3`}>{service.title}</h3>
                   {/* <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{service.description}</p> */}
                   <div
-                    className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}
+                    className={`${themeClasses.text.secondary} leading-relaxed space-y-2 list-disc list-inside`}
                     dangerouslySetInnerHTML={{ __html: service.description }} 
                   />
             
 
                   <Button
-                    className={`w-full mt-6 ${isDarkMode ? "bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-600/30 hover:border-purple-600" : "bg-purple-200/60 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 text-purple-700 hover:text-white border border-purple-300/50 hover:border-transparent"} transition-all duration-300`}
+                    className={`w-full mt-6 ${themeClasses.button.primary} transition-all duration-300`}
                     onClick={() => scrollToSection("contact")}
                   >
                     Get Started
@@ -899,12 +907,12 @@ export default function Portfolio() {
 
             <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-8">
-                <form className="space-y-6">
+                <form className="space-y-6" >
                   <div>
                     <label className={`block ${themeClasses.text.primary} mb-2`}>Name</label>
                     <input
                       type="text"
-                      className={`w-full px-4 py-3 rounded-lg ${isDarkMode ? "bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-purple-300" : "bg-white/70 border border-purple-200/50 text-slate-800 placeholder-slate-500 focus:border-purple-500"} focus:outline-none transition-all duration-300`}
+                      className={`w-full px-4 py-3 rounded-lg ${themeClasses.input.base} focus:outline-none transition-all duration-300`}
                       placeholder="Your Name"
                     />
                   </div>
@@ -912,7 +920,7 @@ export default function Portfolio() {
                     <label className={`block ${themeClasses.text.primary} mb-2`}>Email</label>
                     <input
                       type="email"
-                      className={`w-full px-4 py-3 rounded-lg ${isDarkMode ? "bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-purple-300" : "bg-white/70 border border-purple-200/50 text-slate-800 placeholder-slate-500 focus:border-purple-500"} focus:outline-none transition-all duration-300`}
+                      className={`w-full px-4 py-3 rounded-lg ${themeClasses.input.base} focus:outline-none transition-all duration-300`}
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -920,7 +928,7 @@ export default function Portfolio() {
                     <label className={`block ${themeClasses.text.primary} mb-2`}>Message</label>
                     <textarea
                       rows={5}
-                      className={`w-full px-4 py-3 rounded-lg ${isDarkMode ? "bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-purple-300" : "bg-white/70 border border-purple-200/50 text-slate-800 placeholder-slate-500 focus:border-purple-500"} focus:outline-none resize-none transition-all duration-300`}
+                      className={`w-full px-4 py-3 rounded-lg ${themeClasses.input.base} focus:outline-none resize-none transition-all duration-300`}
                       placeholder="Your message..."
                     ></textarea>
                   </div>
@@ -936,7 +944,7 @@ export default function Portfolio() {
 
       {/* Footer */}
       <footer
-        className={`py-12 px-4 border-t ${isDarkMode ? "border-white/20" : "border-purple-200/40"} transition-all duration-300`}
+        className={`py-12 px-4 border-t ${isDarkMode ? "border-cyan-400/20" : "border-purple-200/40"} transition-all duration-300`}
       >
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -1034,10 +1042,10 @@ export default function Portfolio() {
           </div>
 
           <div
-            className={`mt-8 pt-8 border-t ${isDarkMode ? "border-white/20" : "border-purple-200/40"} text-center transition-all duration-300`}
+            className={`mt-8 pt-8 border-t ${isDarkMode ? "border-cyan-400/20" : "border-purple-200/40"} text-center transition-all duration-300`}
           >
             <p className={themeClasses.text.secondary}>
-              © 2024 Md. Ruhul Amin. All rights reserved. Built with Next.js & Tailwind CSS
+              © 2023 Md. Ruhul Amin. All rights reserved. Built with Next.js & Tailwind CSS
             </p>
           </div>
         </div>

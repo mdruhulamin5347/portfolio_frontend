@@ -103,3 +103,27 @@ export const contactInfoAPIFetch = async ()=>{
     }
     return response.json();
 }
+
+
+export const contactSubmitAPI = async () => {
+  try {
+    const response = await fetch(`${backendURL}/messages/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add Authorization header if needed
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`API error: ${response.status} - ${response.statusText}`);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch About data:', error);
+    return null;
+  }
+};
