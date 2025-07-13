@@ -533,7 +533,7 @@ export default function Portfolio() {
               </Button>
               <Button
                 className={`${themeClasses.button.primary} px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105`}
-                onClick={() => window.open(`http://127.0.0.1:8000/media/resume/${homeData.resume_download}`, "_blank")}
+                onClick={() => window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/media/resume/${homeData.resume_download}`, "_blank")}
               >
                 <Download className="mr-2" size={20} />
                 Resume

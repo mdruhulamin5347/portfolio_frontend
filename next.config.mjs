@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // <-- Required for static export!
+  trailingSlash: true, // Ensures folder-based routing works in shared hosting
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -7,8 +9,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: true, // Because static export doesn't work with next/image optimization
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
