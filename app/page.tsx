@@ -383,14 +383,14 @@ export default function Portfolio() {
     card: {
       base: isDarkMode
         ? "bg-black/30 backdrop-blur-lg border border-cyan-400/20 shadow-lg shadow-cyan-500/10"
-        : "hover:bg-gradient-to-br hover:from-[#E8D5F2] hover:via-[#DDE8F8] hover:to-[#D4E6F1] hover:shadow-xl hover:border-purple-300/60",
+        : "bg-gradient-to-br from-[#E8D5F2] via-[#DDE8F8] to-[#D4E6F1] shadow-xl border-purple-300/60",
       hover: isDarkMode
-        ? "hover:border-fuchsia-500/50 hover:shadow-fuchsia-500/20"
-        : "hover:bg-gradient-to-br hover:from-[#E8D5F2] hover:via-[#DDE8F8] hover:to-[#D4E6F1] hover:shadow-xl hover:border-purple-300/60",
+        ? "hover:border-fuchsia-500/50 hover:shadow-fuchsia-500/30"
+        : "hover:bg-gradient-to-br hover:from-[#D4E6F1] hover:via-[#DDE8F8] hover:to-[#E8D5F2] hover:shadow-xl hover:border-purple-300/60",
     },
     badge: {
       primary: isDarkMode
-        ? "bg-cyan-400/10 text-cyan-300 border border-cyan-400/30"
+        ? "bg-cyan-400/10 text-fuchsia-400 border border-cyan-400/30"
         : "bg-indigo-100 text-indigo-800 border border-indigo-200/80",
       secondary: isDarkMode
         ? "bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/30"
@@ -398,8 +398,8 @@ export default function Portfolio() {
     },
     button: {
       primary: isDarkMode
-        ? "bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg shadow-cyan-500/20"
-        : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl",
+        ? "bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white hover:from-fuchsia-500 hover:to-cyan-500 shadow-lg shadow-cyan-500/20"
+        : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-purple-600 hover:to-indigo-600 shadow-lg hover:shadow-xl",
       secondary: isDarkMode
         ? "border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
         : "border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white",
