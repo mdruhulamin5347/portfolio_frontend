@@ -1,19 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: "Md. Ruhul Amin",
-  description: "A passionate Full Stack Developer creating robust and scalable web applications.",
-  generator: "Md. Ruhul Amin",
-};
+  title: 'Md.Ruhul Amin',
+  description: 'Created with',
+  generator: 'Md.Ruhul Amin.dev',
+}
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
     <html lang="en">
       <body>{children}</body>
     </html>
-  );
+  )
 }
