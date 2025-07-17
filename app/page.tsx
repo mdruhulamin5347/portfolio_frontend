@@ -143,11 +143,10 @@ export default function Portfolio() {
     const fetchAndLogAboutData = async () => {
       const aboutData = await aboutAPIFetch();
       setAboutData(aboutData as aboutDataType);
-      setSkillsData(skillData as skillsType[]);
     }
     fetchAndLogAboutData();
-    
-    
+
+
   },[])
 
 
@@ -178,7 +177,7 @@ export default function Portfolio() {
     }
     fetchAndLogSkillsData();
 
-  })
+  },[])
 
 
 
@@ -191,19 +190,19 @@ export default function Portfolio() {
   },[])
 
     useEffect(()=>{
-    const fetchAndLogWorkExperinceData = async ()=>{
+    const fetchAndLogServiceData = async ()=>{
       const serviceData = await serviceAPIFetch();
       setServiceData(serviceData as serviceDataType[]);
     }
-    fetchAndLogWorkExperinceData();
+    fetchAndLogServiceData();
   },[])
 
     useEffect(()=>{
-    const fetchAndLogWorkExperinceData = async ()=>{
+    const fetchAndLogProjectData = async ()=>{
       const projectData = await projectAPIFetch();
       setProjectData(projectData as projectDataType[]);
     }
-    fetchAndLogWorkExperinceData();
+    fetchAndLogProjectData();
   },[])
 
     useEffect(()=>{
@@ -251,120 +250,7 @@ export default function Portfolio() {
     setIsDarkMode(!isDarkMode)
   }
 
-  const skills = {
-    frontend: ["React", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "JavaScript", "TypeScript"],
-    backend: ["Django", "Django REST Framework", "Express.js", "Node.js", "PostgreSQL", "MySQL"],
-    programming: ["Python", "C", "C++", "JavaScript", "TypeScript"],
-    concepts: ["Data Structures", "Algorithms", "RESTful APIs", "Database Design"],
-    tools: ["Docker", "Git", "GitHub", "VS Code", "Postman", "Linux"],
-  }
 
-  const projects = [
-    {
-      title: "E-Commerce API",
-      description:
-        "A comprehensive REST API built with Django REST Framework featuring user authentication, product management, and order processing.",
-      tech: ["Django", "DRF", "PostgreSQL", "Docker"],
-      github: "#",
-      live: "#",
-    },
-    {
-      title: "Task Management System",
-      description:
-        "Full-stack web application with React frontend and Django backend for team collaboration and project management.",
-      tech: ["React", "Django", "MySQL", "JWT"],
-      github: "#",
-      live: "#",
-    },
-    {
-      title: "Real-time Chat Application",
-      description:
-        "WebSocket-based chat application with real-time messaging, user authentication, and message history.",
-      tech: ["Django Channels", "WebSocket", "Redis", "React"],
-      github: "#",
-      live: "#",
-    },
-  ]
-
-  const services = [
-    {
-      title: "Backend API Development",
-      description:
-        "Build robust and scalable RESTful APIs using Django REST Framework with proper authentication, validation, and documentation.",
-      icon: <Database className="w-8 h-8" />,
-      features: ["REST API Design", "Authentication & Authorization", "Database Integration", "API Documentation"],
-    },
-    {
-      title: "Web Application Development",
-      description:
-        "Full-stack web application development with Django backend and modern frontend frameworks like React and Next.js.",
-      icon: <Globe className="w-8 h-8" />,
-      features: ["Full-Stack Development", "Responsive Design", "Database Design", "Performance Optimization"],
-    },
-    {
-      title: "Database Design & Optimization",
-      description:
-        "Design efficient database schemas, optimize queries, and ensure data integrity for your applications.",
-      icon: <Code className="w-8 h-8" />,
-      features: ["Schema Design", "Query Optimization", "Data Migration", "Performance Tuning"],
-    },
-    {
-      title: "System Integration",
-      description: "Integrate third-party services, payment gateways, and external APIs into your existing systems.",
-      icon: <ExternalLink className="w-8 h-8" />,
-      features: ["Third-party APIs", "Payment Integration", "Webhook Implementation", "Data Synchronization"],
-    },
-    {
-      title: "DevOps & Deployment",
-      description: "Deploy and maintain applications using Docker, cloud platforms, and implement CI/CD pipelines.",
-      icon: <Star className="w-8 h-8" />,
-      features: ["Docker Containerization", "Cloud Deployment", "CI/CD Setup", "Server Management"],
-    },
-    {
-      title: "Code Review & Consultation",
-      description: "Provide expert code reviews, architecture consultation, and technical guidance for your projects.",
-      icon: <MessageCircle className="w-8 h-8" />,
-      features: ["Code Review", "Architecture Planning", "Technical Consultation", "Best Practices"],
-    },
-  ]
-
-  const education = [
-    {
-      type: "Bachelor's Degree",
-      title: "Bachelor's in Engineering",
-      field: "Computer Science & Engineering (CSE)",
-      institution: "Uttara University",
-      duration: "4 Years Program",
-      description:
-        "Comprehensive study in computer science fundamentals, software engineering, algorithms, data structures, and modern web technologies.",
-      skills: ["Software Engineering", "Data Structures", "Algorithms", "Web Development"],
-      icon: <GraduationCap className="w-8 h-8" />,
-    },
-    {
-      type: "Diploma",
-      title: "Diploma in Engineering",
-      field: "Computer Science & Technology",
-      institution: "Jashore Polytechnic Institute",
-      duration: "4 Years Program",
-      description:
-        "Strong foundation in computer science principles, programming fundamentals, and practical technology applications with hands-on experience.",
-      skills: ["Programming", "Computer Networks", "Database Systems", "System Analysis"],
-      icon: <BookOpen className="w-8 h-8" />,
-    },
-  ]
-
-  const certifications = [
-    {
-      title: "CSE Fundamental with Phitron",
-      field: "Computer Science Engineering Fundamentals",
-      institution: "Phitron",
-      type: "Professional Certification",
-      description:
-        "Comprehensive certification program covering core computer science concepts, programming fundamentals, problem-solving techniques, and software development best practices.",
-      skills: ["Problem Solving", "Programming Logic", "Data Structures", "Algorithm Design", "Code Optimization"],
-      icon: <Award className="w-8 h-8" />,
-    },
-  ]
 
   // Enhanced theme classes with better light mode colors
   const themeClasses = {
@@ -631,7 +517,7 @@ export default function Portfolio() {
                     </div>
                     <p className={`${themeClasses.text.secondary} mb-4 leading-relaxed`}>{edu.details}</p>
                     <div className="flex flex-wrap gap-2">
-                      {edu.technologies.map((skill, index) => (
+                      {edu.technologies.map((skill) => (
                         <Badge
                           key={skill?.name}
                           variant="outline"
@@ -707,7 +593,7 @@ export default function Portfolio() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            {skillData.map((skillData,index) =>(
+            {skillData.map((skillData) =>(
 
               <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-6">
@@ -742,7 +628,7 @@ export default function Portfolio() {
 
           <div className="max-w-4xl mx-auto">
 
-            {workExperinceData.map((experience,index) =>(
+            {workExperinceData.map((experience) =>(
               <Card className={`${themeClasses.card.base} ${themeClasses.card.hover} transition-all duration-500`}>
               <CardContent className="p-8">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
@@ -764,7 +650,7 @@ export default function Portfolio() {
                               
 
                   <div className="flex flex-wrap gap-2 mt-6">
-                    {experience.technologies.map((tech,index)=>(
+                    {experience.technologies.map((tech)=>(
                         <Badge
                           className={`${themeClasses.badge.secondary} transition-all duration-300`}
                         >
